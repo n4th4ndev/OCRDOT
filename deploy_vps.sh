@@ -38,19 +38,43 @@ fi
 
 # Install system dependencies
 echo "📚 Installing system dependencies..."
-sudo apt install -y \
-    build-essential \
-    git \
-    curl \
-    wget \
-    unzip \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
-    libgomp1 \
-    libgcc-s1
+
+# Check Ubuntu version and install appropriate packages
+UBUNTU_VERSION=$(lsb_release -rs)
+echo "Detected Ubuntu version: $UBUNTU_VERSION"
+
+if [[ "$UBUNTU_VERSION" == "24.04" ]]; then
+    echo "Installing packages for Ubuntu 24.04 (Noble)..."
+    sudo apt install -y \
+        build-essential \
+        git \
+        curl \
+        wget \
+        unzip \
+        libgl1-mesa-dri \
+        libglib2.0-0t64 \
+        libsm6 \
+        libxext6 \
+        libxrender-dev \
+        libgomp1 \
+        libgcc-s1 \
+        libgl1-mesa-glx-t64
+else
+    echo "Installing packages for older Ubuntu versions..."
+    sudo apt install -y \
+        build-essential \
+        git \
+        curl \
+        wget \
+        unzip \
+        libgl1-mesa-glx \
+        libglib2.0-0 \
+        libsm6 \
+        libxext6 \
+        libxrender-dev \
+        libgomp1 \
+        libgcc-s1
+fi
 
 # Create project directory
 echo "📁 Setting up project directory..."
